@@ -1,0 +1,27 @@
+# Ignore everything
+*
+
+# But don't ignore these directories
+!Express/
+!HELLO/
+
+# Don't ignore .gitignore and README
+!.gitignore
+!README.md
+
+# Ignore node_modules in all directories
+**/node_modules/
+**/package-lock.json
+
+# Ignore logs
+*.log
+npm-debug.log*
+
+# Ignore OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
