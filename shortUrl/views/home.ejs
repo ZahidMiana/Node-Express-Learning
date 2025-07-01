@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: rgb(212, 159, 159);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .url-list {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .short-url {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .short-url:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener😉😊</h1>
+
+        <% if (typeof success !== 'undefined') { %>
+            <div style="color: green; background-color: #eafaf1; padding: 10px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #4caf50;">
+                <%= success %>
+            </div>
+        <% } %>
+
+        <% if (typeof error !== 'undefined') { %>
+            <div style="color: red; background-color: #ffeaea; padding: 10px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #ffcaca;">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <% if (typeof shortUrl !== 'undefined') { %>
+            <div class="result">
+                <h3>✅ URL Generated Successfully!</h3>
+                <p><strong>Original URL:</strong> <%= originalUrl %></p>
+                <p><strong>Short URL:</strong> <a href="<%= shortUrl %>" target="_blank" class="short-url"><%= shortUrl %></a></p>
+                <p><small>Click the short URL to test it!</small></p>
+            </div>
+        <% } %>
+
+        <form method="POST" action="/url">
+            <label for="url">Enter Your Original URL</label>
+            <input type="text" name="url" placeholder="https://example.com" required>
+            <button type="submit">Generate Short URL</button>
+        </form>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <% if (typeof user !== 'undefined' && user) { %>
+                <span style="color: green; font-weight: bold;">Logged in as: <%= user.name %></span>
+                <a href="/user/logout" style="background-color: #dc3545; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-left: 10px;">Logout</a>
+            <% } else { %>
+                <a href="/login" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 10px;">Login</a>
+                <a href="/signup" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 10px;">Sign Up</a>
+            <% } %>
+            <a href="/user" style="background-color: #17a2b8; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View All Users</a>
+        </div>
+
+        <% if (urls && urls.length > 0) { %>
+            <div class="url-list">
+                <h3>📋 Previously Generated URLs</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Short URL</th>
+                            <th>Original URL</th>
+                            <th>Clicks</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% urls.forEach(function(url){ %>
+                            <tr>
+                                <td><a href="/<%= url.shortId %>" target="_blank" class="short-url">/<%= url.shortId %></a></td>
+                                <td><%= url.redirectURL %></td>
+                                <td><%= url.visitHistory.length %></td>
+                                <td><%= new Date(url.createdAt).toLocaleDateString() %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

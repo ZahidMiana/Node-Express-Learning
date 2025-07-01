@@ -1,23 +1,39 @@
-# Ignore everything
-*
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# But don't ignore these directories
+# Include all project folders
 !Express/
+!Express/**
 !HELLO/
+!HELLO/**
+!FILE/
+!FILE/**
+!MVC/
+!MVC/**
+!project1/
+!project1/**
+!project2/
+!project2/**
+!SERVER/
+!SERVER/**
+!shortUrl/
+!shortUrl/**
 
-# Don't ignore .gitignore and README
+# Essential files
 !.gitignore
 !README.md
 
-# Ignore node_modules in all directories
+# But still ignore node_modules everywhere
 **/node_modules/
 **/package-lock.json
 
-# Ignore logs
+# Logs
 *.log
-npm-debug.log*
 
-# Ignore OS generated files
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -25,3 +41,4 @@ npm-debug.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+config.bat
